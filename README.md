@@ -211,29 +211,53 @@ Node.js maneja las conexiones concurrentes con un solo hilo de ejecución, por l
 ## Procedimento P1:
 
 ![image.png](procedimiento/parte%201/image.png)
+
 ![image (1).png](procedimiento/parte%201/image%20%281%29.png)
+
 ![image.jpg](procedimiento/parte%201/image.jpg)
+
 ![image (1).jpg](procedimiento/parte%201/image%20%281%29.jpg)
+
 ![image (4).jpg](procedimiento/parte%201/image%20%284%29.jpg)
+
 ![image (2).jpg](procedimiento/parte%201/image%20%282%29.jpg)
+
 ![image (2).png](procedimiento/parte%201/image%20%282%29.png)
+
 ![image (3).jpg](procedimiento/parte%201/image%20%283%29.jpg)
+
 ![image (3).png](procedimiento/parte%201/image%20%283%29.png)
+
 ![image (4).png](procedimiento/parte%201/image%20%284%29.png)
+
 ![image (5).jpg](procedimiento/parte%201/image%20%285%29.jpg)
+
 ![image (5).png](procedimiento/parte%201/image%20%285%29.png)
+
 ![image (6).jpg](procedimiento/parte%201/image%20%286%29.jpg)
+
 ![image (7).jpg](procedimiento/parte%201/image%20%287%29.jpg)
+
 ![image (8).jpg](procedimiento/parte%201/image%20%288%29.jpg)
+
 ![image (10).jpg](procedimiento/parte%201/image%20%2810%29.jpg)
+
 ![image (11).jpg](procedimiento/parte%201/image%20%2811%29.jpg)
+
 ![image (12).jpg](procedimiento/parte%201/image%20%2812%29.jpg)
+
 ![image (13).jpg](procedimiento/parte%201/image%20%2813%29.jpg)
+
 ![image (14).jpg](procedimiento/parte%201/image%20%2814%29.jpg)
+
 ![image (15).jpg](procedimiento/parte%201/image%20%2815%29.jpg)
+
 ![image (17).jpg](procedimiento/parte%201/image%20%2817%29.jpg)
+
 ![image (9).jpg](procedimiento/parte%201/image%20%289%29.jpg)
+
 ![image (16).jpg](procedimiento/parte%201/image%20%2816%29.jpg)
+
 ![image (18).jpg](procedimiento/parte%201/image%20%2818%29.jpg)
 
 ### Parte 2 - Escalabilidad horizontal
