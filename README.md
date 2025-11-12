@@ -84,18 +84,157 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 **Preguntas**
 
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
+
+Cuando se crea una Máquina Virtual (VM) en Azure, el portal automáticamente despliega varios recursos asociados, normalmente entre 5 y 7 dependiendo de las configuraciones elegidas.
+En este laboratorio, los recursos creados fueron:
+
+Virtual Machine (VM)
+
+Public IP Address
+
+Network Interface (NIC)
+
+Network Security Group (NSG)
+
+Virtual Network (VNet)
+
+Subnet (dentro de la VNet)
+
+Storage Account / Disco administrado (OS Disk)
+
 2. ¿Brevemente describa para qué sirve cada recurso?
+
+| Recurso                          | Descripción                                                                                    |
+| -------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **Virtual Machine (VM)**         | Es el servidor virtual donde se ejecuta el sistema operativo (Ubuntu) y la aplicación Node.js. |
+| **Public IP Address**            | Permite acceder a la VM desde Internet (por SSH o por el puerto 3000).                         |
+| **Network Interface (NIC)**      | Conecta la VM con la red virtual y asocia las configuraciones de red (IP, NSG, etc.).          |
+| **Network Security Group (NSG)** | Define reglas de entrada y salida. Controla el tráfico que puede acceder a la VM.              |
+| **Virtual Network (VNet)**       | Red privada que conecta los recursos dentro del grupo (por ejemplo, varias VMs).               |
+| **Subnet**                       | Segmento dentro de la VNet que agrupa recursos con el mismo rango IP.                          |
+| **Storage / OS Disk**            | Disco duro virtual donde se almacena el sistema operativo y los archivos de la aplicación.     |
+| **Resource Group**               | Contenedor lógico para organizar y administrar todos los recursos relacionados.                |
+
+
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+
+Cuando ejecutamos npm FibonacciApp.js, el proceso se asocia directamente a la sesión SSH activa.
+Cuando se cierra la conexión, el proceso también se termina, por eso la aplicación se “cae”.
+
+La Solución es usar un gestor de procesos como forever o pm2, que mantiene la aplicación corriendo en segundo plano incluso si se cierra la sesión SSH.
+
+El Inbound Port Rule permite que el tráfico externo pueda acceder al puerto 3000 (donde corre la app).
+Sin esta regla, el Network Security Group bloquearía las peticiones HTTP y no podríamos acceder desde el navegador o Postman.
+
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
+
+| n (Fibonacci) | Tiempo de respuesta (ms) |
+| ------------- | ------------------------ |
+| 1,000,000     | ...                      |
+| 1,010,000     | ...                      |
+| 1,020,000     | ...                      |
+| 1,030,000     | ...                      |
+| 1,040,000     | ...                      |
+| 1,050,000     | ...                      |
+| 1,060,000     | ...                      |
+| 1,070,000     | ...                      |
+| 1,080,000     | ...                      |
+| 1,090,000     | ...                      |
+
+esto se deve a que la función de Fibonacci está implementada de forma recursiva sin memoización ni iteración, por lo tanto su complejidad es exponencial O(2ⁿ).
+Cada llamada genera dos más, haciendo que el tiempo crezca de manera desproporcionada.
+Esto explica los tiempos tan altos y el uso intensivo del CPU.
+
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+
+La función recursiva genera una gran cantidad de operaciones matemáticas, lo que mantiene el procesador al 100%.
+Node.js es de un solo hilo (single-threaded), por lo que no puede aprovechar varios núcleos. Toda la carga se concentra en un solo hilo, causando saturación de CPU.
+
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
     * Tiempos de ejecución de cada petición.
     * Si hubo fallos documentelos y explique.
+
+Tiempos de ejecución: las peticiones tardan varios segundos debido a la alta carga de CPU.
+
+Fallos: si hubo errores (timeout o conexión fallida), se deben a que el servidor no alcanzó a responder antes de que Postman cerrara la conexión.
+
+Conclusión: el rendimiento es bajo porque la función no es eficiente y la VM (B1ls) tiene pocos recursos de CPU y memoria.
+
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+
+B1ls: Tamaño básico con 1 CPU virtual y 0.5 GB de RAM. Ideal para pruebas ligeras o tareas de baja demanda.
+
+B2ms: Tiene 2 CPUs virtuales y 8 GB de RAM, por lo que maneja más procesos y mayor carga de trabajo.
+
+B2ms no solo ofrece más capacidad, sino que también mejora la concurrencia y reduce el tiempo de espera por CPU, permitiendo que Node.js ejecute más operaciones sin bloquearse tanto.
+Sin embargo, no soluciona la ineficiencia algorítmica: el problema de rendimiento principal sigue siendo la función de Fibonacci.
+
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+
+No del todo.
+Aumentar el tamaño mejora temporalmente el rendimiento, pero no escala de forma eficiente.
+La aplicación sigue usando un algoritmo ineficiente y Node.js no aprovecha múltiples núcleos.
+Al cambiar el tamaño de la VM, la FibonacciApp se detiene temporalmente (reinicio) y debe volver a iniciarse.
+
 9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+
+Azure reinicia la máquina para aplicar el nuevo tamaño.
+
+El hardware subyacente cambia (CPU, RAM, almacenamiento temporal).
+
+Efectos negativos:
+
+Tiempo de inactividad (downtime).
+
+Riesgo de pérdida de datos si se usa almacenamiento temporal.
+
+Costo mayor de operación.
+
+No mejora la escalabilidad frente a múltiples usuarios concurrentes.
+
 10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+
+Sí, se observa una reducción en los tiempos y en la saturación de CPU.
+
+Pero: la mejora es por capacidad, no por eficiencia.
+El algoritmo sigue siendo costoso, por lo que el incremento no escala de manera lineal.
+En cargas mayores, el rendimiento vuelve a degradarse.
+
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+
+El sistema no mejora proporcionalmente.
+
+Al tener más peticiones simultáneas, la CPU se satura más rápido y las respuestas se degradan.
+
+Node.js maneja las conexiones concurrentes con un solo hilo de ejecución, por lo tanto no hay paralelismo real en el cálculo, solo en la gestión de peticiones.
+
+## Procedimento P1:
+
+![image.png](procedimiento/parte%201/image.png)
+![image (1).png](procedimiento/parte%201/image%20%281%29.png)
+![image.jpg](procedimiento/parte%201/image.jpg)
+![image (1).jpg](procedimiento/parte%201/image%20%281%29.jpg)
+![image (4).jpg](procedimiento/parte%201/image%20%284%29.jpg)
+![image (2).jpg](procedimiento/parte%201/image%20%282%29.jpg)
+![image (2).png](procedimiento/parte%201/image%20%282%29.png)
+![image (3).jpg](procedimiento/parte%201/image%20%283%29.jpg)
+![image (3).png](procedimiento/parte%201/image%20%283%29.png)
+![image (4).png](procedimiento/parte%201/image%20%284%29.png)
+![image (5).jpg](procedimiento/parte%201/image%20%285%29.jpg)
+![image (5).png](procedimiento/parte%201/image%20%285%29.png)
+![image (6).jpg](procedimiento/parte%201/image%20%286%29.jpg)
+![image (7).jpg](procedimiento/parte%201/image%20%287%29.jpg)
+![image (8).jpg](procedimiento/parte%201/image%20%288%29.jpg)
+![image (10).jpg](procedimiento/parte%201/image%20%2810%29.jpg)
+![image (11).jpg](procedimiento/parte%201/image%20%2811%29.jpg)
+![image (12).jpg](procedimiento/parte%201/image%20%2812%29.jpg)
+![image (13).jpg](procedimiento/parte%201/image%20%2813%29.jpg)
+![image (14).jpg](procedimiento/parte%201/image%20%2814%29.jpg)
+![image (15).jpg](procedimiento/parte%201/image%20%2815%29.jpg)
+![image (17).jpg](procedimiento/parte%201/image%20%2817%29.jpg)
+![image (9).jpg](procedimiento/parte%201/image%20%289%29.jpg)
+![image (16).jpg](procedimiento/parte%201/image%20%2816%29.jpg)
+![image (18).jpg](procedimiento/parte%201/image%20%2818%29.jpg)
 
 ### Parte 2 - Escalabilidad horizontal
 
