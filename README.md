@@ -347,12 +347,157 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 **Preguntas**
 
 * ¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
+
+Tipos de balanceadores de carga en Azure
+
+Load Balancer (L4 – TCP/UDP): distribuye tráfico a nivel de red; usado para VMs.
+
+Application Gateway (L7 – HTTP/HTTPS): permite routing avanzado y WAF; usado para aplicaciones web.
+
+SKU (Basic vs Standard)
+
+Basic: menor seguridad, no soporta zonas, solo para pruebas.
+
+Standard: mayor rendimiento, seguridad y soporte de Availability Zones (ideal para producción).
+
+El balanceador necesita IP pública para permitir acceso externo desde Internet al cluster de VMs.
+
 * ¿Cuál es el propósito del *Backend Pool*?
+
+SKU = Stock Keeping Unit, en Azure significa la “clase” del recurso, que determina sus capacidades, características y precio.
+
+En Load Balancer existen:
+
+### Basic SKU
+
+Para entornos pequeños o de prueba.
+
+Menor seguridad.
+
+No soporta zonas de disponibilidad.
+
+No es recomendado para producción.
+
+### Standard SKU
+
+Más seguro (traffic is denied unless explicitly allowed).
+
+Alta disponibilidad.
+
+Soporta Availability Zones.
+
+Mejor rendimiento.
+
+Recomendado para producción.
+
 * ¿Cuál es el propósito del *Health Probe*?
+
+El balanceador necesita una IP pública para:
+
+Permitir que el tráfico desde Internet llegue a las máquinas virtuales internas.
+
+Servir como punto central de entrada a todo el cluster.
+
+Ocultar las IPs privadas de las VMs (aumenta seguridad).
+
+Mantener una única URL/IP para el cliente externo.
+
 * ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
+
+La Load Balancing Rule define cómo el balanceador distribuye el tráfico hacia las máquinas virtuales.
+Especifica:
+
+IP pública del balanceador
+
+Puerto de entrada
+
+Puerto destino en las VMs
+
+Backend Pool
+
+Health Probe
+
+Tipo de sesión persistente
+
+Tipos de sesión persistente
+
+None (sin afinidad)
+
+Cada petición puede enviarse a cualquier VM.
+
+Máxima escalabilidad, ideal para aplicaciones stateless.
+
+Client IP
+
+Todas las peticiones del mismo cliente van siempre a la misma VM.
+
+Puede generar sobrecarga en una sola máquina (hot spot).
+
+Client IP + Protocol
+
+Afinidad aún más específica (IP + protocolo).
+
+Aumenta el riesgo de carga desigual.
+
+Impacto en la escalabilidad
+
+La persistencia puede limitar la distribución uniforme del tráfico.
+
+Si una VM recibe más usuarios fijos, puede saturarse.
+
+Para sistemas altamente escalables, lo ideal es no usar persistencia.
+
 * ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
+
+Virtual Network (VNet):
+Red privada dentro de Azure que permite la comunicación segura entre recursos como VMs, balanceadores, bases de datos, etc.
+
+Subnet:
+Una división lógica dentro de la VNet que organiza los recursos y segmenta el tráfico.
+
+address space y address range
+
+Address Space:
+El rango completo de direcciones IP de la VNet (ej. 10.0.0.0/16).
+
+Address Range (Subnet Range):
+El bloque de IP asignado a cada Subnet dentro del address space (ej. 10.0.1.0/24).
+
 * ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
+
+Availability Zone:
+Centros de datos físicamente separados dentro de una misma región de Azure.
+
+Seleccionamos tres zonas para:
+
+Garantizar alta disponibilidad
+
+Evitar fallos por caída de un datacenter
+
+Lograr tolerancia a desastres
+
+IP zone-redundant
+
+Una IP zone-redundant funciona en todas las zonas simultáneamente, lo que significa que:
+
+No depende de un solo datacenter
+
+La dirección permanece operativa aunque una zona falle
+
+Es esencial para balanceadores de carga en producción.
+
 * ¿Cuál es el propósito del *Network Security Group*?
+
+Un Network Security Group (NSG) funciona como un firewall que controla el tráfico entrante y saliente de:
+
+Máquinas virtuales
+
+Subnets
+
+Interfaces de red
+
+Permite definir reglas para permitir o bloquear tráfico por puerto, IP y protocolo.
+
 * Informe de newman 1 (Punto 2)
 * Presente el Diagrama de Despliegue de la solución.
 
