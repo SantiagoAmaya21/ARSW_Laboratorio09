@@ -2,8 +2,8 @@
 ### Arquitecturas de Software - ARSW
 
 --------
-#### Ricardo Ayala
-#### Santiago Amaya
+#### Ricardo Andrés Ayala Garzón [lRicardol](https://github.com/lRicardol)
+#### Santiago Amaya Zapata [SantiagoAmaya21](https://github.com/SantiagoAmaya21)
 
 
 ## Escalamiento en Azure con Maquinas Virtuales, Sacale Sets y Service Plans
@@ -382,15 +382,9 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 
 ![imagen (3).png](procedimiento/Parte%202/imagen%20%283%29.png)
 
-![imagen (3).jpg](procedimiento/Parte%202/imagen%20%283%29.jpg)
-
 ![imagen (4).jpg](procedimiento/Parte%202/imagen%20%284%29.jpg)
 
 ![imagen (4).png](procedimiento/Parte%202/imagen%20%284%29.png)
-
-![imagen (5).png](procedimiento/Parte%202/imagen%20%285%29.png)
-
-![imagen (6).png](procedimiento/Parte%202/imagen%20%286%29.png)
 
 ![imagen (5).jpg](procedimiento/Parte%202/imagen%20%285%29.jpg)
 
@@ -553,7 +547,45 @@ Interfaces de red
 Permite definir reglas para permitir o bloquear tráfico por puerto, IP y protocolo.
 
 * Informe de newman 1 (Punto 2)
-* Presente el Diagrama de Despliegue de la solución.
+
+![imagen (3).jpg](procedimiento/Parte%202/imagen%20%283%29.jpg)
+
+![imagen (5).png](procedimiento/Parte%202/imagen%20%285%29.png)
+
+![imagen (6).png](procedimiento/Parte%202/imagen%20%286%29.png)
+
+| Criterio              | Escalamiento Vertical (B1ls/B2ms)        | Escalabilidad Horizontal (3 VMs + LB)                   |
+| --------------------- | ---------------------------------------- | ------------------------------------------------------- |
+| Tiempo de respuesta   | Muy alto, fácilmente supera minutos      | Promedio 15–50 s                                        |
+| Fallos                | Varios timeouts y caídas por CPU al 100% | Menos fallos, sistema sigue respondiendo                |
+| Disponibilidad        | Un solo punto de falla                   | Alta disponibilidad                                     |
+| Distribución de carga | No se distribuye                         | Balanceada entre 3 VMs                                  |
+| Tolerancia a fallos   | Baja                                     | Alta (1 VM puede fallar y el sistema sigue funcionando) |
+| Costos                | VM grande es costosa                     | 3 VMs pequeñas pueden ser más económicas                |
+
+Las pruebas de Newman demuestran que:
+
+La arquitectura horizontal mejora considerablemente el rendimiento global.
+
+Aunque aún existen fallos puntuales debido a:
+
+* El algoritmo extremadamente ineficiente (Fibonacci recursivo sin optimización).
+
+La capacidad limitada de CPU por VM.
+
+Node.js ejecutándose en un solo hilo.
+
+* Aun así, el sistema responde mejor y falla menos que en el modelo vertical.
+
+La concurrencia se distribuye entre varias máquinas, evitando la saturación inmediata y permitiendo que más solicitudes sean atendidas exitosamente.
+
+* El balanceador de carga proporciona tolerancia a fallos.
+
+Incluso cuando una VM no responde, las otras dos continúan atendiendo solicitudes.
+
+* El tiempo máximo sigue siendo elevado debido al algoritmo, pero ya no hay caídas totales.
+
+## * Presente el Diagrama de Despliegue de la solución.
 
 ![Diagrama de despliegue.png](procedimiento/Parte%202/Diagrama%20de%20despliegue.png)
 
