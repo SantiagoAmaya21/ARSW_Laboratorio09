@@ -343,6 +343,55 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
+## Proceso
+
+![image.jpg](procedimiento/Parte%202/image.jpg)
+
+![image.png](procedimiento/Parte%202/image.png)
+
+![image (1).jpg](procedimiento/Parte%202/image%20%281%29.jpg)
+
+![image (1).png](procedimiento/Parte%202/image%20%281%29.png)
+
+![image (2).jpg](procedimiento/Parte%202/image%20%282%29.jpg)
+
+![image (2).png](procedimiento/Parte%202/image%20%282%29.png)
+
+![image (3).jpg](procedimiento/Parte%202/image%20%283%29.jpg)
+
+![image (4).jpg](procedimiento/Parte%202/image%20%284%29.jpg)
+
+![image (5).jpg](procedimiento/Parte%202/image%20%285%29.jpg)
+
+![imagen.jpg](procedimiento/Parte%202/imagen.jpg)
+
+![imagen.png](procedimiento/Parte%202/imagen.png)
+
+![imagen (1).jpg](procedimiento/Parte%202/imagen%20%281%29.jpg)
+
+![imagen (1).png](procedimiento/Parte%202/imagen%20%281%29.png)
+
+![imagen (2).jpg](procedimiento/Parte%202/imagen%20%282%29.jpg)
+
+![imagen (2).png](procedimiento/Parte%202/imagen%20%282%29.png)
+
+![imagen (3).png](procedimiento/Parte%202/imagen%20%283%29.png)
+
+![imagen (3).jpg](procedimiento/Parte%202/imagen%20%283%29.jpg)
+
+![imagen (4).jpg](procedimiento/Parte%202/imagen%20%284%29.jpg)
+
+![imagen (4).png](procedimiento/Parte%202/imagen%20%284%29.png)
+
+![imagen (5).png](procedimiento/Parte%202/imagen%20%285%29.png)
+
+![imagen (6).png](procedimiento/Parte%202/imagen%20%286%29.png)
+
+![imagen (5).jpg](procedimiento/Parte%202/imagen%20%285%29.jpg)
+
+![imagen 11.png](procedimiento/Parte%202/imagen%2011.png)
+
+![imagen 12.jpg](procedimiento/Parte%202/imagen%2012.jpg)
 
 **Preguntas**
 
@@ -500,6 +549,8 @@ Permite definir reglas para permitir o bloquear tráfico por puerto, IP y protoc
 
 * Informe de newman 1 (Punto 2)
 * Presente el Diagrama de Despliegue de la solución.
+
+![Diagrama de despliegue.png](procedimiento/Parte%202/Diagrama%20de%20despliegue.png)
 
 
 
