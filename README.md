@@ -1,5 +1,10 @@
-### Escuela Colombiana de Ingeniería
+## Escuela Colombiana de Ingeniería
 ### Arquitecturas de Software - ARSW
+
+--------
+#### Ricardo Ayala
+#### Santiago Amaya
+
 
 ## Escalamiento en Azure con Maquinas Virtuales, Sacale Sets y Service Plans
 
